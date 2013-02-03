@@ -25,7 +25,7 @@ var timeformat *string = flag.String("timeformat", "2006-01-02T15:04", "Time for
 var quotes *string = flag.String("quotes", "mett_quotes.txt", "Quote database file")
 var metts *string = flag.String("metts", "mett_metts.txt", "Metts database file")
 var offtime *int = flag.Int("offtime", 4, "Number of hours of offtopic content befor posting mett content")
-var offmessages *int = flag.Int("offmessages", 50, "Number of messages of offtopic content befor posting mett content")
+var offmessages *int = flag.Int("offmessages", 100, "Number of messages of offtopic content befor posting mett content")
 
 func init() {
 	flag.Parse()
