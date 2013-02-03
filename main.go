@@ -221,14 +221,14 @@ func (bot *Mettbot) PostMett(channel string) {
 	}
 
 	num := rand.Intn(lines)
-	quote := ""
+	mett := ""
 
 	_, err = fi.Seek(0, 0)
 	if err != nil {
 		log.Println(err)
 	}
 	for ; num >= 0; num-- {
-		quote, err = reader.ReadString('\n')
+		mett, err = reader.ReadString('\n')
 		if err == io.EOF {
 			log.Println("PostMett: reached EOF")
 			return
@@ -239,7 +239,8 @@ func (bot *Mettbot) PostMett(channel string) {
 			return
 		}
 	}
-	bot.Notice(channel, quote)
+	mettnotice := "It's time for moar Mett: " + mett
+	bot.Notice(channel, mettnotice)
 }
 
 func (bot *Mettbot) readStdin() {
