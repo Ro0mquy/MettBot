@@ -55,6 +55,8 @@ func (bot *Mettbot) HandlerPrivmsg(line *irc.Line) {
 		bot.GetTweet(actChannel, msg)
 	case strings.Contains(msg, "mett") || strings.Contains(msg, "Mett") || strings.Contains(msg, "METT"):
 		bot.Mett()
+	case strings.Contains(msg, "\\a"):
+		bot.Dong()
 	default:
 		bot.MsgSinceMett++
 		if bot.MsgSinceMett >= *Offmessages {

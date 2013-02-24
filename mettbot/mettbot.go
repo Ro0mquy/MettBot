@@ -49,6 +49,7 @@ type Mettbot struct {
 	MettsLinesPrnt  chan int
 	Input           chan string
 	IsMett          chan bool
+	IsDong          chan bool
 	ReallyQuit      bool
 	Topics          map[string]string
 	MsgSinceMett    int
@@ -64,6 +65,7 @@ func NewMettbot(nick string, args ...string) *Mettbot {
 		make(chan int),                  // MettsLinesPrnt
 		make(chan string, 4),            // Input
 		make(chan bool),                 // IsMett
+		make(chan bool),                 // IsDong
 		false,                           // ReallyQuit
 		make(map[string]string), // Topics
 		0,                       // MsgSinceMett
@@ -85,9 +87,16 @@ func (bot *Mettbot) Mett() {
 	bot.IsMett <- true
 }
 
+func (bot *Mettbot) Dong() {
+	bot.IsDong <- true
+}
+
 func (bot *Mettbot) CheckMett() {
 	for {
 		select {
+		case <-bot.IsDong:
+			bot.Notice(*Channel, "DONG!")
+			break
 		case <-bot.IsMett:
 		case <-time.After(time.Duration(*Offtime) * time.Hour):
 			hour := time.Now().Hour()
