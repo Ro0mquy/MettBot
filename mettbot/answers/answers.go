@@ -42,7 +42,7 @@ var QuoteNotFound []string = []string{
 
 var Warning []string = []string{
 	"You guys are a bit offtopic",
-	"You looked at the name of this channel recently?",
+	"Have ou looked at the name of this channel recently?",
 	"I warn you",
 	"Back to Mett",
 	"You should talk more about mett",
