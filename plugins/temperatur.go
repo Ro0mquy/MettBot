@@ -14,6 +14,7 @@ import (
 const (
 	hawo_address  = "hawo.net:7337"
 	izibi_address = "http://tempi.0x4a42.net:7337/"
+	matti_address = "http://temp.notmatti.me"
 )
 
 type TemperaturPlugin struct {
@@ -34,6 +35,8 @@ func (q *TemperaturPlugin) Usage(cmd string) string {
 		return "prints the temperatur at HaWo"
 	case "it":
 		return "prints the temperatur at izibis home"
+	case "mt":
+		return "prints the temperatur at mattis home"
 	}
 	return ""
 }
@@ -42,6 +45,7 @@ func (q *TemperaturPlugin) Register(ic *ircclient.IRCClient) {
 	q.ic = ic
 	q.ic.RegisterCommandHandler("ht", 0, 0, q)
 	q.ic.RegisterCommandHandler("it", 0, 0, q)
+	q.ic.RegisterCommandHandler("mt", 0, 0, q)
 }
 
 func (q *TemperaturPlugin) Unregister() {
@@ -58,6 +62,8 @@ func (q *TemperaturPlugin) ProcessCommand(cmd *ircclient.IRCCommand) {
 		q.ic.Reply(cmd, q.getHaWo())
 	case "it":
 		q.ic.Reply(cmd, q.getIzibi())
+	case "mt":
+		q.ic.Reply(cmd, q.getMatti())
 	}
 }
 
@@ -113,4 +119,12 @@ func (q *TemperaturPlugin) getIzibi() string {
 	}
 
 	return fmt.Sprint("Aktuelle Temperatur vor izibis Fenster: ", aussen, "°C und in seinem Zimmer: ", innen, "°C")
+}
+
+func (q *TemperaturPlugin) getMatti() string {
+	answer, err := q.getHttp(matti_address)
+	if err != nil {
+		return "Error accessing \"" + matti_address + "\": " + err.Error()
+	}
+	return "Aktuelle Temperatur bei Matti: " + answer
 }
